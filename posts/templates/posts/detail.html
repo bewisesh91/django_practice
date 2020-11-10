@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+{% endblock %}
+
+{% block content %}
+<body>
+    <h1> Post Detail </h1>
+
+    {% if post.image %}
+        <div>
+            <img class="image-size" src="{{ post.image.url}}" alt="Post Image" />
+        </div>
+    {% endif %}
+
+    {% if post %}
+        <h2> 작성자 </h2>
+        <p> {{ post.user.get_username}} </p>
+
+        <h2> 본문 </h2>
+        <p> {{ post.body}} </p>
+
+        <h2> 게시일 </h2>
+        <p> {{ post.created_at}} </p>
+    {% else %}
+        <p> No Post </p>
+    {% endif %}
+    
+    <div> 
+        좋아요 수 : {{post.liked_users.count}}
+    </div>
+
+    {% if user.is_authenticated %}
+        <form action = "{% url 'posts:like' post.id %}" method="POST">
+            {% csrf_token %}
+            
+            {% if user in post.liked_users.all %}
+                <button type="submit" class="btn btn-primary">LIKE</button>
+            {% else %}
+                <button type="submit" class="btn btn-secondary">LIKE</button>    
+            {% endif %}
+        </form>
+    {% endif %}
+
+        
+    
+    
+    
+    
+    <a href="{% url 'posts:index' %}"> 목록 </a>
+
+    {% if user == post.user %}
+    <a href="{% url 'posts:edit' post.id %}"> 수정하기 </a>
+    <a href="{% url 'posts:delete' post.id %}"> 삭제하기 </a>
+    {% endif %}
+</body>
+
+</html>
+{% endblock %}

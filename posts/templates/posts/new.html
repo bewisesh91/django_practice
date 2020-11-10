@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="sytlesheet" href="{% static 'posts/style.css' %}" type="text/css">
+</head>
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <h1> New Post </h1>
+    <form action="{% url 'posts:create' %}" method="POST" enctype="multipart/form-data">
+        <!-- method가 get이 아닌 post이다. -->
+        {% csrf_token %}
+        <!-- Django로 form 태그를 사용할 때 꼭 사용해야 함, 정보 보안을 위해 사용하는 것, Cross Site Request Forgery -->
+
+        <!-- <h2> 작성자 </h2>
+        <input type="text" name="author" /> -->
+        <!-- name을 정의 해줘야 server에 저장될 때 정보들을 구분할 수 있다. -->
+        
+        <h2> 본문 </h2>
+        <textarea cols=40 rows=10 name="body"></textarea>
+        <!-- 즉, input 영역에 적어준 것은 author로, textarea에 적어준 것은 body로 전달된다 -->
+        <br>
+        <label for="image">이미지</label>
+        <input type="file" id="image" name="image"/> 
+        <br>
+        <input type="submit" value="작성하기" />
+    </form>
+    <a href="{% url 'posts:index' %}"> 목록 </a>
+    
+</body>
+</html>
+{% endblock %}

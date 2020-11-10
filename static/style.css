@@ -1,0 +1,7 @@
+/* 똑같은 레이아웃을 만들기 위해서 margin과 padding을 0px로 지정 */
+* {
+    margin: 0px;
+    padding: 0px;
+box-sizing: border-box;
+}
+
